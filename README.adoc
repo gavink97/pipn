@@ -1,0 +1,73 @@
+= Pipn - Auto Pip for firefox
+ifdef::env-github[]
+Gavin Kondrath <78187175+gavink97@users.noreply.github.com>
+v1.0.0, 2025-01-31
+:homepage: https://github.com/gavink97/pipn
+endif::[]
+:toc:
+:toc-placement!:
+:icons: font
+
+Pipn, a hacky way to get auto pip to work in firefox.
+
+++++
+<a href="https://addons.mozilla.org/en-US/firefox/addon/pipn-auto-picture-in-picture/">
+ <picture>
+   <img alt="pipn screenshot" src="./icons/icon.png" />
+ </picture>
+</a>
+++++
+
+toc::[]
+
+== Getting Started
+
+=== Installation
+
+1. Install pipn from https://addons.mozilla.org/en-US/firefox/addon/pipn-auto-picture-in-picture/[addons.mozilla.org (AMO)]
+
+2. Make sure `media.videocontrols.picture-in-picture.enable-when-switching-tabs.enabled` is set to `true` in `about:config`
+
+=== Build from source
+
+```
+gh repo clone gavink97/pipn .
+cd pipn
+npm install
+make eb
+make build
+```
+
+=== Using pipn
+
+Once pipn is installed, on any browsing tab that has audio playing pipn will
+attempt to enable picture in picture mode by creating a new tab when focus
+leaves firefox. This is because Firefox does not support the https://bugzilla.mozilla.org/show_bug.cgi?id=1463402[Picture in
+picture API].
+
+Upon focus having returned to firefox, firefox will then close the newly created tab and return you
+to the original tab.
+
+== Contributing
+
+I'm open to contributions.
+
+== Support
+
+If you're feeling generous you can support this project and others I make on
+https://ko-fi.com/E1E119NG8M[Ko-fi] :)
+
+== Star
+
+If you've found this useful please give it a star ⭐️ as it helps other developers
+find my repos.
+
+++++
+<a href="https://star-history.com/#gavink97/pipn&Date">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=gavink97/pipn&type=Date&theme=dark" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=gavink97/pipn&type=Date" />
+   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=gavink97/pipn&type=Date" />
+ </picture>
+</a>
+++++

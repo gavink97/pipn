@@ -1,0 +1,29 @@
+{
+    "manifest_version": 3,
+    "name": "pipn auto pip",
+    "version": "1.0",
+    "description": "A hack to get Auto Picture in Picture in Firefox",
+    "author": "Gavin Kondrath",
+    "homepage_url": "https://github.com/gavink97/pipn",
+    "permissions": [
+        "tabs"
+    ],
+    "icons": {
+        "48": "icons/icon-48.png",
+        "96": "icons/icon-96.png"
+    },
+    "host_permissions": [
+        "<all_urls>"
+    ],
+    "background": {
+        "scripts": [
+            "./dist/background.js"
+        ],
+        "type": "module"
+    },
+    "browser_specific_settings": {
+        "gecko": {
+            "id": "pipn@gav.ink"
+        }
+    }
+}

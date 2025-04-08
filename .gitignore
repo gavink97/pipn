@@ -1,0 +1,7 @@
+node_modules
+dist
+*.afphoto
+web-ext-artifacts
+.DS_Store
+.env
+package-lock.json

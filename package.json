@@ -1,0 +1,16 @@
+{
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
+    "@commitlint/cli": "^19.8.0",
+    "@commitlint/config-conventional": "^19.8.0",
+    "@types/chrome": "^0.0.313",
+    "@types/firefox-webext-browser": "^120.0.4",
+    "@types/webextension-polyfill": "^0.12.3",
+    "dotenv": "^16.4.7",
+    "esbuild": "^0.25.2",
+    "tsx": "^4.19.3",
+    "vitest": "^3.1.1",
+    "web-ext": "^8.5.0",
+    "webextension-polyfill": "^0.12.0"
+  }
+}
