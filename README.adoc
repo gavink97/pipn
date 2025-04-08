@@ -1,4 +1,4 @@
-= Pipn - Auto Pip for firefox
+= Pipn - Automatic Picture in Picture Mode for firefox
 ifdef::env-github[]
 Gavin Kondrath <78187175+gavink97@users.noreply.github.com>
 v1.0.0, 2025-01-31
@@ -8,7 +8,8 @@ endif::[]
 :toc-placement!:
 :icons: font
 
-Pipn, a hacky way to get auto pip to work in firefox.
+Pipn, a hacky way to get picture in picture mode to work automatically in
+firefox.
 
 ++++
 <a href="https://addons.mozilla.org/en-US/firefox/addon/pipn-auto-picture-in-picture/">
