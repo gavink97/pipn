@@ -1,62 +1,90 @@
 import * as esbuild from 'esbuild';
+import postCSSPlugin from './postcss-plugin.js';
+import postcssPresetEnv from 'postcss-preset-env';
+import cssnano from 'cssnano';
+import postcssAutoReset from 'postcss-autoreset';
+import postcssInitial from 'postcss-initial';
 
 var isBuild = process.argv.includes('--build') || process.argv.includes('-b');
 
 export async function build() {
-    let minify = true
+	let minify = false;
 
-    const entryPoints = [
-        './src/**/*.ts',
-    ]
+	const entryPoints = ['./src/**/*.ts', './src/*.css'];
 
-    const settings = {
-        entryPoints: entryPoints,
-        bundle: true,
-        outdir: './dist',
-        format: 'iife',
-        platform: 'browser',
-        minify: minify,
-    };
+	if (isBuild) {
+		postcss.push(
+			cssnano({
+				preset: 'default',
+			}),
+		);
 
-    let ctx = await esbuild.context(settings);
+		minify = true;
+	}
 
-    if (isBuild) {
-        try{
-            console.log('Starting build process...');
-            await esbuild.build(settings);
+	let postcss = [
+		postcssInitial({ reset: 'inherited' }),
+		postcssAutoReset({
+			reset: {
+				margin: 0,
+				padding: 0,
+				borderRadius: 0,
+			},
+		}),
+		postcssPresetEnv({
+			features: {},
+		}),
+	];
 
-        } catch (err) {
-            throw err;
+	const settings = {
+		entryPoints: entryPoints,
+		bundle: true,
+		outdir: './dist',
+		format: 'iife',
+		platform: 'browser',
+		minify: minify,
+		plugins: [
+			postCSSPlugin({
+				plugins: postcss,
+			}),
+		],
+	};
 
-        } finally {
-            if (ctx) {
-                await ctx.dispose();
-            }
-        }
-    } else {
-        await ctx.watch()
-        console.log('watching...');
-    }
+	let ctx = await esbuild.context(settings);
+
+	if (isBuild) {
+		try {
+			console.log('Starting build process...');
+			await esbuild.build(settings);
+		} catch (err) {
+			throw err;
+		} finally {
+			if (ctx) {
+				await ctx.dispose();
+			}
+		}
+	} else {
+		await ctx.watch();
+		console.log('watching...');
+	}
 }
 
 function main() {
-    if (isBuild) {
-        build()
-            .catch((err) => {
-                console.error('An error occurred in the build process:', err);
-                process.exit(1);
-            })
-            .finally(() => {
-                console.log('Build Complete');
-            });
-
-    } else {
-        build()
-            .catch((err) => {
-                console.error('An error occurred in the build process:', err);
-                process.exit(1);
-            })
-    }
+	if (isBuild) {
+		build()
+			.catch((err) => {
+				console.error('An error occurred in the build process:', err);
+				process.exit(1);
+			})
+			.finally(() => {
+				console.log('Build Complete');
+			});
+	} else {
+		build().catch((err) => {
+			console.error('An error occurred in the build process:', err);
+			process.exit(1);
+		});
+	}
 }
 
 main();

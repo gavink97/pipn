@@ -1,0 +1,64 @@
+body {
+	display: grid;
+	margin: 2rem;
+	text-align: start;
+	width: 36rem;
+}
+
+form {
+	display: grid;
+	grid-row: 3;
+	grid-column: 1/3;
+	gap: 1rem;
+}
+
+.hidden {
+	visibility: hidden;
+}
+
+#pipn {
+	grid-row: 1;
+	margin-top: 0;
+	margin-bottom: 0;
+}
+#gavink {
+	grid-row: 2;
+	margin-top: 0;
+}
+
+#github {
+	grid-row: 1;
+	text-align: end;
+}
+
+#delay-opts {
+	grid-row: 2;
+	display: flex;
+	align-items: center
+}
+
+#delay {
+	width: 70%
+}
+
+#delay-value {
+	padding-left: 1rem;
+}
+
+#debugging-opts {
+	grid-row: 3;
+}
+
+#submit {
+	grid-row: 4;
+	width: 80%;
+}
+
+#debug-panel {
+	grid-row: 4;
+	grid-column: 1/3;
+	margin-top: 1rem;
+	width: 80%;
+	display: grid;
+	gap: 1rem;
+}

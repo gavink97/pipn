@@ -11,6 +11,14 @@
     "tsx": "^4.19.3",
     "vitest": "^3.1.1",
     "web-ext": "^8.5.0",
-    "webextension-polyfill": "^0.12.0"
+    "webextension-polyfill": "^0.12.0",
+    "autoprefixer": "^10.4.22",
+    "cssnano": "^7.1.2",
+    "postcss": "^8.5.6",
+    "postcss-autoreset": "^3.1.0",
+    "postcss-import": "^16.1.1",
+    "postcss-initial": "^4.0.1",
+    "postcss-nesting": "^13.0.2",
+    "postcss-preset-env": "^10.4.0"
   }
 }
