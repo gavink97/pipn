@@ -18,7 +18,8 @@ export default {
         'tests',
         'tsconfig.json',
         'vitest.config.ts',
-        'web-ext-config.mjs'
+        'web-ext-config.mjs',
+		'src'
     ],
     sign: {
         apiKey: process.env.WEB_EXT_API_KEY,

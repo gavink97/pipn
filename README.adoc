@@ -1,7 +1,7 @@
 = Pipn - Automatic Picture in Picture Mode for firefox
 ifdef::env-github[]
 Gavin Kondrath <78187175+gavink97@users.noreply.github.com>
-v1.0.0, 2025-01-31
+v1.0.1, 2026-06-19
 :homepage: https://github.com/gavink97/pipn
 endif::[]
 :toc:

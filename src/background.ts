@@ -1,69 +1,65 @@
-let dummyTabId = null;
-let originalTabId = null;
-let state = false;
+type State = {
+	active: boolean | undefined;
+	dummyTabId: number | undefined;
+	originalTabId: number | undefined;
+};
 
-async function handleFocusLoss() {
-	const currentTab = await browser.tabs.query({ active: true, currentWindow: true });
+async function write(state: Partial<State> | undefined): Promise<void> {
+	await browser.storage.session.set({ state: state });
+}
 
-	if (!currentTab[0].audible) {
+async function get(): Promise<State> {
+	return (await browser.storage.session.get('state')).state;
+}
+
+async function switchNewTab(): Promise<void> {
+	const active = (await browser.tabs.query({ active: true, currentWindow: true }))[0];
+
+	if (!active?.audible || !active.active) {
 		return;
 	}
 
-	originalTabId = currentTab[0].id;
-
-	const dummyTab = await browser.tabs.create({
+	const dummy = await browser.tabs.create({
 		url: 'about:blank',
-		active: false,
+		active: true,
 	});
 
-	dummyTabId = dummyTab.id;
-
-	setTimeout(async () => {
-		await browser.tabs.update(dummyTabId, { active: true });
-	}, 50);
+	await write({
+		active: true,
+		originalTabId: active.id,
+		dummyTabId: dummy.id,
+	});
 }
 
-async function handleFocusGain() {
-	if (!dummyTabId) return;
+async function gainFocus(): Promise<void> {
+	const state = await get();
 
-	const currentTab = await browser.tabs.query({ active: true, currentWindow: true });
-
-	await new Promise((resolve) => setTimeout(resolve, 10));
-
-	if (currentTab[0].id === dummyTabId) {
-		await browser.tabs.remove(dummyTabId);
-		dummyTabId = null;
-
-		try {
-			await browser.tabs.get(originalTabId);
-			await browser.tabs.update(originalTabId, { active: true });
-		} catch {
-			// Original tab was closed
-		}
-	}
-}
-
-browser.windows.onFocusChanged.addListener(async (windowId) => {
-	if (state) {
+	if (!state?.active) {
 		return;
 	}
 
-	state = true;
+	// biome-ignore-start lint/style/noNonNullAssertion: there will always be an original and dummy tab id
+	await browser.tabs.update(state.originalTabId!, { active: true });
+	await browser.tabs.remove(state.dummyTabId!);
+	// biome-ignore-end lint/style/noNonNullAssertion: there will always be an original and dummy tab id
 
-	try {
-		if (windowId === browser.windows.WINDOW_ID_NONE) {
-			await handleFocusLoss();
-		} else {
-			await handleFocusGain();
-		}
-	} finally {
-		state = false;
-	}
-});
+	await write(undefined);
+}
 
-browser.tabs.onRemoved.addListener((tabId) => {
-	if (tabId === dummyTabId) {
-		dummyTabId = null;
-		originalTabId = null;
+async function main(windowId: number): Promise<void> {
+	if (windowId === browser.windows.WINDOW_ID_NONE) {
+		await switchNewTab();
+	} else {
+		await gainFocus();
 	}
-});
+}
+
+if (
+	!browser.windows.onFocusChanged.hasListener(async (windowId: number) => {
+		await main(windowId);
+	})
+) {
+	browser.windows.onFocusChanged.addListener(async (windowId: number) => {
+		await main(windowId);
+	});
+}
